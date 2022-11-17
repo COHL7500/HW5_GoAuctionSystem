@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option go_package = "github.com/Hw5_GoAuctionSystem/proto/GoAuctionSystem;GoAuctionSystem";
+
+package GoAuctionSystem;
+
+service AuctionSystem {
+    rpc Bid(BidPost) returns (BidAck) {}
+    rpc Result(BidPost) returns (BidPost) {}
+}
+
+enum Acks {
+    ACK_FAIL = 0;
+    ACK_SUCCESS = 1;
+    ACK_EXCEPTION = 2;
+}
+
+message BidPost {
+    int32 id = 1;
+    int32 amount = 2;
+    int64 lamport = 3;
+}
+
+message BidAck {
+    Acks ack = 1;
+}
