@@ -5,8 +5,8 @@ option go_package = "github.com/Hw5_GoAuctionSystem/proto/GoAuctionSystem;GoAuct
 package GoAuctionSystem;
 
 service AuctionSystem {
-    rpc Bid(BidPost) returns (BidAck) {}
-    rpc Result(BidPost) returns (BidPost) {}
+    rpc Bid(BidPost) returns (Ack) {}
+    rpc Result(Empty) returns (Outcome) {}
 }
 
 enum Acks {
@@ -21,6 +21,13 @@ message BidPost {
     int64 lamport = 3;
 }
 
-message BidAck {
+message Empty {}
+
+message Outcome {
+    int32 amount = 1;
+    bool over = 2;
+}
+
+message Ack {
     Acks ack = 1;
 }

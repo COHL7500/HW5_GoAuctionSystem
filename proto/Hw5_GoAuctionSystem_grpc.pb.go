@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuctionSystemClient interface {
-	Bid(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*BidAck, error)
-	Result(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*BidPost, error)
+	Bid(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*Ack, error)
+	Result(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Outcome, error)
 }
 
 type auctionSystemClient struct {
@@ -34,8 +34,8 @@ func NewAuctionSystemClient(cc grpc.ClientConnInterface) AuctionSystemClient {
 	return &auctionSystemClient{cc}
 }
 
-func (c *auctionSystemClient) Bid(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*BidAck, error) {
-	out := new(BidAck)
+func (c *auctionSystemClient) Bid(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*Ack, error) {
+	out := new(Ack)
 	err := c.cc.Invoke(ctx, "/GoAuctionSystem.AuctionSystem/Bid", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,8 +43,8 @@ func (c *auctionSystemClient) Bid(ctx context.Context, in *BidPost, opts ...grpc
 	return out, nil
 }
 
-func (c *auctionSystemClient) Result(ctx context.Context, in *BidPost, opts ...grpc.CallOption) (*BidPost, error) {
-	out := new(BidPost)
+func (c *auctionSystemClient) Result(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Outcome, error) {
+	out := new(Outcome)
 	err := c.cc.Invoke(ctx, "/GoAuctionSystem.AuctionSystem/Result", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *auctionSystemClient) Result(ctx context.Context, in *BidPost, opts ...g
 // All implementations must embed UnimplementedAuctionSystemServer
 // for forward compatibility
 type AuctionSystemServer interface {
-	Bid(context.Context, *BidPost) (*BidAck, error)
-	Result(context.Context, *BidPost) (*BidPost, error)
+	Bid(context.Context, *BidPost) (*Ack, error)
+	Result(context.Context, *Empty) (*Outcome, error)
 	mustEmbedUnimplementedAuctionSystemServer()
 }
 
@@ -65,10 +65,10 @@ type AuctionSystemServer interface {
 type UnimplementedAuctionSystemServer struct {
 }
 
-func (UnimplementedAuctionSystemServer) Bid(context.Context, *BidPost) (*BidAck, error) {
+func (UnimplementedAuctionSystemServer) Bid(context.Context, *BidPost) (*Ack, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Bid not implemented")
 }
-func (UnimplementedAuctionSystemServer) Result(context.Context, *BidPost) (*BidPost, error) {
+func (UnimplementedAuctionSystemServer) Result(context.Context, *Empty) (*Outcome, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Result not implemented")
 }
 func (UnimplementedAuctionSystemServer) mustEmbedUnimplementedAuctionSystemServer() {}
@@ -103,7 +103,7 @@ func _AuctionSystem_Bid_Handler(srv interface{}, ctx context.Context, dec func(i
 }
 
 func _AuctionSystem_Result_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BidPost)
+	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func _AuctionSystem_Result_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/GoAuctionSystem.AuctionSystem/Result",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuctionSystemServer).Result(ctx, req.(*BidPost))
+		return srv.(AuctionSystemServer).Result(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
