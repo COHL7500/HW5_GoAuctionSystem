@@ -11,6 +11,7 @@ import (
     "os"
     "strconv"
     "time"
+    "math/rand"
 
     "github.com/Hw5_GoAuctionSystem/proto"
     "google.golang.org/grpc"
@@ -34,23 +35,26 @@ type server struct {
 // --------------------------- //
 // ---------- SERVER --------- //
 // --------------------------- //
-func BidBreak() {
-    if bidCount++; bidCount > 10 {
+func BidBreak(id int32) {
+    log.Printf("id: %v, count: %v", id, bidCount+1)
+    if bidCount++; bidCount == 10 {
+        log.Printf("Bidding round %d over: winner %v, amount %d, total bids %d",bidRnd+1,id,bidVal,bidCount)
         bidOver = true
         time.Sleep(time.Second*5)
         bidCount = 0
-        bidVal = 0
+        bidVal = rand.Intn(1000)
         bidRnd++
         bidOver = false
+        log.Printf("Starting bidding round %d, starting amount %d",bidRnd,bidVal)
     }
 }
 
 func (s *server) Bid(context context.Context, bid *GoAuctionSystem.BidPost) (*GoAuctionSystem.Ack, error) {
-	log.Printf("Got client %v bid, amount: %v", bid.Id, bid.Amount)
+	log.Printf("Client %v bid amount %d", bid.Id, bid.Amount)
 
     if int(bid.Amount) > bidVal {
         bidVal = int(bid.Amount)
-        go BidBreak()
+        go BidBreak(bid.Id)
         return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_SUCCESS}, nil
     } else if int(bid.Amount) < bidVal {
         return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_FAIL}, nil
@@ -85,9 +89,12 @@ func StartServer() {
 // ---------- SETUP ---------- //
 // --------------------------- //
 func main() {
+    rand.Seed(time.Now().UnixNano())
 	args := os.Args[1:] // args: <port number>
 	pid, _ := strconv.ParseInt(args[0], 10, 32)
 	id = int32(pid)
+    bidVal = rand.Intn(1000)
 
+    log.Printf("Starting bidding round %d, starting amount %d",1,bidVal)
 	StartServer()
 }

@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+    "math/rand"
 
 	"github.com/Hw5_GoAuctionSystem/proto"
 	"google.golang.org/grpc"
@@ -95,7 +96,7 @@ func FrontEnd(servers int) {
 		    }
 
             roundOver = false
-            BroadcastBid(result.Amount+5)
+            BroadcastBid(result.Amount+int32(rand.Intn(500)))
             time.Sleep(time.Second*2)
         }
 	}
@@ -123,9 +124,11 @@ func DialServer(serverId int) {
 // ---------- SETUP ---------- //
 // --------------------------- //
 func main() {
+    rand.Seed(time.Now().UnixNano())
 	args := os.Args[1:] // args: <client ID> <server Count>
 	aid, _ := strconv.ParseInt(args[0], 10, 32)
     sc, _ := strconv.ParseInt(args[1], 10, 32)
+    br, _ := strconv.ParseInt(args[2], 10, 32)
 	id = int32(aid)
     chanDone = make([]chan bool, int(sc))
     servers = make([]GoAuctionSystem.AuctionSystemClient, int(sc))
@@ -134,8 +137,8 @@ func main() {
 		go DialServer(i)
 	}
 
-	for i := 0; i < 5; i++ {
-        log.Printf("Starting bidding round %d", i+1)
+	for i := 0; i < int(br); i++ {
+        log.Printf("Starting bidding round %d/%d", i+1, int(br))
 		FrontEnd(int(sc))
 	}
 }
