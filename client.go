@@ -23,6 +23,7 @@ var (
 	lamport     int64
 	serverCount int
 	currentBid  int
+    roundOver   bool
     chanDone    []chan bool
 	servers     []GoAuctionSystem.AuctionSystemClient
 )
@@ -32,7 +33,7 @@ var (
 // --------------------------- //
 func CheckServer(err error, serverId int) bool {
     if err != nil {
-        log.Printf("server %v err: %v", serverId, err)
+        log.Printf("Server %v unresponsive, connection disconnected...", serverId)
         servers[serverId] = nil
         chanDone[serverId] <- true
         return false
@@ -44,17 +45,18 @@ func BroadcastBid(amount int32) {
     lamport++
     timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
     currBid := GoAuctionSystem.BidPost{Id: id, Amount: amount, Lamport: lamport}
+    log.Printf("Bidding amount %d", amount)
     for i, s := range servers {
         if s != nil {
             ack, err := s.Bid(timeout, &currBid)
             if CheckServer(err,i) {
                 switch ack.Ack {
                     case GoAuctionSystem.Acks_ACK_FAIL:
-                        log.Printf("Bid failed!")
+                        log.Printf("Bidding server %v failed!",i)
                     case GoAuctionSystem.Acks_ACK_SUCCESS:
-                        log.Printf("Bid success!")
+                        log.Printf("Bidding server %v sucess!",i)
                     case GoAuctionSystem.Acks_ACK_EXCEPTION:
-                        log.Printf("Bid exception!")
+                        log.Printf("Bidding server %v exception",i)
                 }
             }
         }
@@ -64,8 +66,6 @@ func BroadcastBid(amount int32) {
 func GetResult() *GoAuctionSystem.Outcome {
     lamport++
 	timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
-
-    log.Printf("servers: %x",serverCount)
     for i := 0; i < serverCount; i++ {
         if servers[i] != nil {
 	        result, err := servers[i].Result(timeout, &GoAuctionSystem.Empty{})
@@ -84,9 +84,17 @@ func FrontEnd(servers int) {
             result := GetResult()
 
 		    if result.Over {
-                return
+                if !roundOver {
+                    roundOver = true
+                    currentBid = 0
+                    log.Printf("Round over, total bidding amount: %v", result.Amount)
+                    return
+                }
+                time.Sleep(time.Second*2)
+                continue
 		    }
 
+            roundOver = false
             BroadcastBid(result.Amount+5)
             time.Sleep(time.Second*2)
         }
@@ -115,7 +123,7 @@ func DialServer(serverId int) {
 // ---------- SETUP ---------- //
 // --------------------------- //
 func main() {
-	args := os.Args[1:] // args: <client ID>
+	args := os.Args[1:] // args: <client ID> <server Count>
 	aid, _ := strconv.ParseInt(args[0], 10, 32)
     sc, _ := strconv.ParseInt(args[1], 10, 32)
 	id = int32(aid)
@@ -127,6 +135,7 @@ func main() {
 	}
 
 	for i := 0; i < 5; i++ {
+        log.Printf("Starting bidding round %d", i+1)
 		FrontEnd(int(sc))
 	}
 }
