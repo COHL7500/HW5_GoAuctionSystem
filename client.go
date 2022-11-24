@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/Hw5_GoAuctionSystem/proto"
 	"google.golang.org/grpc"
@@ -17,66 +19,96 @@ import (
 // --------- GLOBALS --------- //
 // --------------------------- //
 var (
-	cid         int32
-	lamport     = 0
-	serverCount = 1
-	mu          sync.Mutex
-	currentBid  = 0
-	servers     = make([]GoAuctionSystem.AuctionSystemClient, serverCount)
+	id          int32
+	lamport     int64
+	serverCount int
+	currentBid  int
+    chanDone    []chan bool
+	servers     []GoAuctionSystem.AuctionSystemClient
 )
 
 // --------------------------- //
 // ---------- CLIENT --------- //
 // --------------------------- //
-func HandleMessage(serverId int, bid GoAuctionSystem.BidPost) {
-	lamport++
-	if bid.Amount == -1 {
-		log.Printf("Bidding amount %d...", bid.Amount)
-		switch ack, _ := clients[serverId].Bid(context.Background(), &bid); ack.Ack {
-		case GoAuctionSystem.Acks_ACK_FAIL:
-			log.Printf("Bid failed")
-		case GoAuctionSystem.Acks_ACK_SUCCESS:
-			log.Printf("Bid success")
-		case GoAuctionSystem.Acks_ACK_EXCEPTION:
-			log.Printf("Bid exception")
-		}
-		return
-	}
-	// result, _ := client.Result(context.Background(),&bid)
+func CheckServer(err error, serverId int) bool {
+    if err != nil {
+        log.Printf("server %v err: %v", serverId, err)
+        servers[serverId] = nil
+        chanDone[serverId] <- true
+        return false
+    }
+    return true
+}
+
+func BroadcastBid(amount int32) {
+    lamport++
+    timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
+    currBid := GoAuctionSystem.BidPost{Id: id, Amount: amount, Lamport: lamport}
+    for i, s := range servers {
+        if s != nil {
+            ack, err := s.Bid(timeout, &currBid)
+            if CheckServer(err,i) {
+                switch ack.Ack {
+                    case GoAuctionSystem.Acks_ACK_FAIL:
+                        log.Printf("Bid failed!")
+                    case GoAuctionSystem.Acks_ACK_SUCCESS:
+                        log.Printf("Bid success!")
+                    case GoAuctionSystem.Acks_ACK_EXCEPTION:
+                        log.Printf("Bid exception!")
+                }
+            }
+        }
+    }
 }
 
 func GetResult() *GoAuctionSystem.Outcome {
+    lamport++
 	timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
-	result, err := clients[0].Result(timeout, &GoAuctionSystem.Empty{})
-	if err != nil {
 
-	}
-
-	return result
+    log.Printf("servers: %x",serverCount)
+    for i := 0; i < serverCount; i++ {
+        if servers[i] != nil {
+	        result, err := servers[i].Result(timeout, &GoAuctionSystem.Empty{})
+	        if !CheckServer(err,i) {
+                continue
+            }
+            return result
+        }
+    }
+    return nil
 }
 
-func FrontEnd() {
+func FrontEnd(servers int) {
 	for {
-		if result := GetResult(); result.Over {
+        if serverCount == servers {
+            result := GetResult()
 
-		}
+		    if result.Over {
+                return
+		    }
+
+            BroadcastBid(result.Amount+5)
+            time.Sleep(time.Second*2)
+        }
 	}
 }
 
 func DialServer(serverId int) {
 	// Dial server
-	conn, err := grpc.Dial(fmt.Sprintf("localhost:", serverId+5000), grpc.WithInsecure())
-	if err != nil {
+	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", serverId+5000), grpc.WithInsecure())
+    if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
 
 	// Setup client
-	servers[id] = GoAuctionSystem.NewAuctionSystemClient(conn)
+	servers[serverId] = GoAuctionSystem.NewAuctionSystemClient(conn)
+    chanDone[serverId] = make(chan bool)
 	log.Printf("Client connected to server...")
+    serverCount++
 
 	// Closes connection
-	s := make(chan bool)
-	<-s
+	<-chanDone[serverId]
+    conn.Close()
 }
 
 // --------------------------- //
@@ -84,14 +116,17 @@ func DialServer(serverId int) {
 // --------------------------- //
 func main() {
 	args := os.Args[1:] // args: <client ID>
-	id, _ := strconv.ParseInt(args[0], 10, 32)
-	cid = int32(id)
+	aid, _ := strconv.ParseInt(args[0], 10, 32)
+    sc, _ := strconv.ParseInt(args[1], 10, 32)
+	id = int32(aid)
+    chanDone = make([]chan bool, int(sc))
+    servers = make([]GoAuctionSystem.AuctionSystemClient, int(sc))
 
-	for i := 0; i < serverCount; i++ {
-		DialServer(i)
+	for i := 0; i < int(sc); i++ {
+		go DialServer(i)
 	}
 
 	for i := 0; i < 5; i++ {
-		FrontEnd()
+		FrontEnd(int(sc))
 	}
 }
