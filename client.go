@@ -91,13 +91,13 @@ func FrontEnd(servers int) {
                     log.Printf("Round over, total bidding amount: %v", result.Amount)
                     return
                 }
-                time.Sleep(time.Second*2)
+                time.Sleep(time.Second*time.Duration(rand.Intn(2)+1))
                 continue
 		    }
 
             roundOver = false
             BroadcastBid(result.Amount+int32(rand.Intn(500)))
-            time.Sleep(time.Second*2)
+            time.Sleep(time.Second*time.Duration(rand.Intn(2)+1))
         }
 	}
 }

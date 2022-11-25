@@ -22,10 +22,10 @@ import (
 // --------------------------- //
 var (
 	id       int32
-    bidCount int = 0
-	bidRnd   int = 0
-	bidVal   int = 0
-    bidOver  bool = false
+    bidCount int
+	bidRnd   int
+	bidVal   int
+    bidOver  bool
 )
 
 type server struct {
@@ -36,13 +36,12 @@ type server struct {
 // ---------- SERVER --------- //
 // --------------------------- //
 func BidBreak(id int32) {
-    log.Printf("id: %v, count: %v", id, bidCount+1)
     if bidCount++; bidCount == 10 {
         log.Printf("Bidding round %d over: winner %v, amount %d, total bids %d",bidRnd+1,id,bidVal,bidCount)
         bidOver = true
         time.Sleep(time.Second*5)
         bidCount = 0
-        bidVal = rand.Intn(1000)
+        bidVal = 0
         bidRnd++
         bidOver = false
         log.Printf("Starting bidding round %d, starting amount %d",bidRnd,bidVal)
@@ -93,7 +92,6 @@ func main() {
 	args := os.Args[1:] // args: <port number>
 	pid, _ := strconv.ParseInt(args[0], 10, 32)
 	id = int32(pid)
-    bidVal = rand.Intn(1000)
 
     log.Printf("Starting bidding round %d, starting amount %d",1,bidVal)
 	StartServer()
