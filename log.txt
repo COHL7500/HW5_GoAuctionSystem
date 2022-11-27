@@ -1,190 +1,176 @@
 // Client number 1
-2022/11/25 23:36:32 Starting bidding round 1/2
-2022/11/25 23:36:32 Client connected to server...
-2022/11/25 23:36:32 Client connected to server...
-2022/11/25 23:36:32 Client connected to server...
-2022/11/25 23:36:32 Bidding amount 7
-2022/11/25 23:36:32 Bidding server 0 sucess!
-2022/11/25 23:36:32 Bidding server 1 sucess!
-2022/11/25 23:36:32 Bidding server 2 sucess!
-2022/11/25 23:36:34 Bidding amount 464
-2022/11/25 23:36:34 Bidding server 0 sucess!
-2022/11/25 23:36:34 Bidding server 1 sucess!
-2022/11/25 23:36:34 Bidding server 2 sucess!
-2022/11/25 23:36:35 Bidding amount 794
-2022/11/25 23:36:35 Bidding server 0 sucess!
-2022/11/25 23:36:35 Bidding server 1 sucess!
-2022/11/25 23:36:35 Bidding server 2 sucess!
-2022/11/25 23:36:36 Bidding amount 1307
-2022/11/25 23:36:36 Bidding server 0 sucess!
-2022/11/25 23:36:36 Bidding server 1 sucess!
-2022/11/25 23:36:36 Bidding server 2 sucess!
-2022/11/25 23:36:37 Bidding amount 1509
-2022/11/25 23:36:37 Bidding server 0 sucess!
-2022/11/25 23:36:37 Bidding server 1 sucess!
-2022/11/25 23:36:37 Bidding server 2 sucess!
-2022/11/25 23:36:39 Bidding amount 2193
-2022/11/25 23:36:39 Bidding server 0 sucess!
-2022/11/25 23:36:39 Bidding server 1 sucess!
-2022/11/25 23:36:39 Bidding server 2 sucess!
-2022/11/25 23:36:41 Round over, total bidding amount: 2250
-2022/11/25 23:36:41 Starting bidding round 2/2
-2022/11/25 23:36:45 Bidding amount 479
-2022/11/25 23:36:45 Bidding server 0 sucess!
-2022/11/25 23:36:45 Bidding server 1 sucess!
-2022/11/25 23:36:45 Bidding server 2 sucess!
-2022/11/25 23:36:47 Bidding amount 910
-2022/11/25 23:36:47 Bidding server 0 sucess!
-2022/11/25 23:36:47 Bidding server 1 sucess!
-2022/11/25 23:36:47 Bidding server 2 sucess!
-2022/11/25 23:36:49 Bidding amount 2370
-2022/11/25 23:36:49 Bidding server 0 sucess!
-2022/11/25 23:36:49 Bidding server 1 sucess!
-2022/11/25 23:36:49 Bidding server 2 sucess!
-2022/11/25 23:36:51 Round over, total bidding amount: 2370
+2022/11/27 12:29:27 Starting bidding round 1/2
+2022/11/27 12:29:27 Client connected to server...
+2022/11/27 12:29:27 Client connected to server...
+2022/11/27 12:29:27 Client connected to server...
+2022/11/27 12:29:27 Bidding amount 140
+2022/11/27 12:29:27 Bidding server 0 sucess!
+2022/11/27 12:29:27 Bidding server 1 sucess!
+2022/11/27 12:29:27 Bidding server 2 sucess!
+2022/11/27 12:29:28 Bidding amount 317
+2022/11/27 12:29:28 Bidding server 0 sucess!
+2022/11/27 12:29:28 Bidding server 1 sucess!
+2022/11/27 12:29:28 Bidding server 2 sucess!
+2022/11/27 12:29:30 Bidding amount 1504
+2022/11/27 12:29:30 Bidding server 0 sucess!
+2022/11/27 12:29:30 Bidding server 1 sucess!
+2022/11/27 12:29:30 Bidding server 2 sucess!
+2022/11/27 12:29:31 Bidding amount 2026
+2022/11/27 12:29:31 Bidding server 0 sucess!
+2022/11/27 12:29:31 Bidding server 1 sucess!
+2022/11/27 12:29:31 Bidding server 2 sucess!
+2022/11/27 12:29:32 Round over, total bidding amount: 2480
+2022/11/27 12:29:32 Starting bidding round 2/2
+2022/11/27 12:29:37 Bidding amount 529
+2022/11/27 12:29:37 Bidding server 0 sucess!
+2022/11/27 12:29:37 Bidding server 1 sucess!
+2022/11/27 12:29:37 Bidding server 2 sucess!
+2022/11/27 12:29:38 Server 0 unresponsive, connection disconnected...
+2022/11/27 12:29:38 Bidding amount 1142
+2022/11/27 12:29:38 Bidding server 1 sucess!
+2022/11/27 12:29:38 Bidding server 2 sucess!
+2022/11/27 12:29:39 Bidding amount 2127
+2022/11/27 12:29:39 Bidding server 1 sucess!
+2022/11/27 12:29:39 Bidding server 2 sucess!
+2022/11/27 12:29:41 Round over, total bidding amount: 2404
 
 // Client number 2
-2022/11/25 23:36:36 Starting bidding round 1/2
-2022/11/25 23:36:36 Client connected to server...
-2022/11/25 23:36:36 Client connected to server...
-2022/11/25 23:36:36 Client connected to server...
-2022/11/25 23:36:36 Bidding amount 1156
-2022/11/25 23:36:36 Bidding server 0 sucess!
-2022/11/25 23:36:36 Bidding server 1 sucess!
-2022/11/25 23:36:36 Bidding server 2 sucess!
-2022/11/25 23:36:38 Bidding amount 1808
-2022/11/25 23:36:38 Bidding server 0 sucess!
-2022/11/25 23:36:38 Bidding server 1 sucess!
-2022/11/25 23:36:38 Bidding server 2 sucess!
-2022/11/25 23:36:39 Bidding amount 1939
-2022/11/25 23:36:39 Bidding server 0 sucess!
-2022/11/25 23:36:39 Bidding server 1 sucess!
-2022/11/25 23:36:39 Bidding server 2 sucess!
-2022/11/25 23:36:41 Round over, total bidding amount: 2250
-2022/11/25 23:36:41 Starting bidding round 2/2
-2022/11/25 23:36:45 Bidding amount 154
-2022/11/25 23:36:45 Bidding server 0 sucess!
-2022/11/25 23:36:45 Bidding server 1 sucess!
-2022/11/25 23:36:45 Bidding server 2 sucess!
-2022/11/25 23:36:46 Bidding amount 625
-2022/11/25 23:36:46 Bidding server 0 sucess!
-2022/11/25 23:36:46 Bidding server 1 sucess!
-2022/11/25 23:36:46 Bidding server 2 sucess!
-2022/11/25 23:36:48 Bidding amount 1606
-2022/11/25 23:36:48 Bidding server 0 sucess!
-2022/11/25 23:36:48 Bidding server 1 sucess!
-2022/11/25 23:36:48 Bidding server 2 sucess!
-2022/11/25 23:36:49 Bidding amount 1982
-2022/11/25 23:36:49 Bidding server 0 sucess!
-2022/11/25 23:36:49 Bidding server 1 sucess!
-2022/11/25 23:36:49 Bidding server 2 sucess!
-2022/11/25 23:36:50 Round over, total bidding amount: 2370
+2022/11/27 12:29:28 Starting bidding round 1/2
+2022/11/27 12:29:28 Client connected to server...
+2022/11/27 12:29:28 Client connected to server...
+2022/11/27 12:29:28 Client connected to server...
+2022/11/27 12:29:28 Bidding amount 640
+2022/11/27 12:29:28 Bidding server 0 sucess!
+2022/11/27 12:29:28 Bidding server 1 sucess!
+2022/11/27 12:29:28 Bidding server 2 sucess!
+2022/11/27 12:29:29 Bidding amount 1098
+2022/11/27 12:29:29 Bidding server 0 sucess!
+2022/11/27 12:29:29 Bidding server 1 sucess!
+2022/11/27 12:29:29 Bidding server 2 sucess!
+2022/11/27 12:29:31 Bidding amount 2037
+2022/11/27 12:29:31 Bidding server 0 sucess!
+2022/11/27 12:29:31 Bidding server 1 sucess!
+2022/11/27 12:29:31 Bidding server 2 sucess!
+2022/11/27 12:29:33 Round over, total bidding amount: 2480
+2022/11/27 12:29:33 Starting bidding round 2/2
+2022/11/27 12:29:37 Server 0 unresponsive, connection disconnected...
+2022/11/27 12:29:37 Bidding amount 794
+2022/11/27 12:29:37 Bidding server 1 sucess!
+2022/11/27 12:29:37 Bidding server 2 sucess!
+2022/11/27 12:29:38 Bidding amount 1610
+2022/11/27 12:29:38 Bidding server 1 sucess!
+2022/11/27 12:29:38 Bidding server 2 sucess!
+2022/11/27 12:29:40 Bidding amount 2404
+2022/11/27 12:29:40 Bidding server 1 sucess!
+2022/11/27 12:29:40 Bidding server 2 sucess!
+2022/11/27 12:29:41 Round over, total bidding amount: 2404
 
 // Client number 3
-2022/11/25 23:36:39 Starting bidding round 1/2
-2022/11/25 23:36:39 Client connected to server...
-2022/11/25 23:36:39 Client connected to server...
-2022/11/25 23:36:39 Client connected to server...
-2022/11/25 23:36:39 Bidding amount 2250
-2022/11/25 23:36:39 Bidding server 0 sucess!
-2022/11/25 23:36:39 Bidding server 1 sucess!
-2022/11/25 23:36:39 Bidding server 2 sucess!
-2022/11/25 23:36:40 Round over, total bidding amount: 2250
-2022/11/25 23:36:40 Starting bidding round 2/2
-2022/11/25 23:36:45 Bidding amount 522
-2022/11/25 23:36:45 Bidding server 0 sucess!
-2022/11/25 23:36:45 Bidding server 1 sucess!
-2022/11/25 23:36:45 Bidding server 2 sucess!
-2022/11/25 23:36:47 Bidding amount 1124
-2022/11/25 23:36:47 Bidding server 0 sucess!
-2022/11/25 23:36:47 Bidding server 1 sucess!
-2022/11/25 23:36:47 Bidding server 2 sucess!
-2022/11/25 23:36:48 Bidding amount 1840
-2022/11/25 23:36:48 Bidding server 0 sucess!
-2022/11/25 23:36:48 Bidding server 1 sucess!
-2022/11/25 23:36:48 Bidding server 2 sucess!
-2022/11/25 23:36:49 Round over, total bidding amount: 2370
+2022/11/27 12:29:29 Starting bidding round 1/2
+2022/11/27 12:29:29 Client connected to server...
+2022/11/27 12:29:29 Client connected to server...
+2022/11/27 12:29:29 Client connected to server...
+2022/11/27 12:29:29 Bidding amount 1488
+2022/11/27 12:29:29 Bidding server 0 sucess!
+2022/11/27 12:29:29 Bidding server 1 sucess!
+2022/11/27 12:29:29 Bidding server 2 sucess!
+2022/11/27 12:29:30 Bidding amount 1551
+2022/11/27 12:29:30 Bidding server 0 sucess!
+2022/11/27 12:29:30 Bidding server 1 sucess!
+2022/11/27 12:29:30 Bidding server 2 sucess!
+2022/11/27 12:29:31 Bidding amount 2480
+2022/11/27 12:29:31 Bidding server 0 sucess!
+2022/11/27 12:29:31 Bidding server 1 sucess!
+2022/11/27 12:29:31 Bidding server 2 sucess!
+2022/11/27 12:29:33 Round over, total bidding amount: 2480
+2022/11/27 12:29:33 Starting bidding round 2/2
+2022/11/27 12:29:36 Bidding amount 107
+2022/11/27 12:29:36 Bidding server 0 sucess!
+2022/11/27 12:29:36 Bidding server 1 sucess!
+2022/11/27 12:29:36 Bidding server 2 sucess!
+2022/11/27 12:29:37 Server 0 unresponsive, connection disconnected...
+2022/11/27 12:29:37 Bidding amount 988
+2022/11/27 12:29:37 Bidding server 1 sucess!
+2022/11/27 12:29:37 Bidding server 2 sucess!
+2022/11/27 12:29:38 Bidding amount 1735
+2022/11/27 12:29:38 Bidding server 1 sucess!
+2022/11/27 12:29:38 Bidding server 2 sucess!
+2022/11/27 12:29:39 Bidding amount 2400
+2022/11/27 12:29:39 Bidding server 1 sucess!
+2022/11/27 12:29:39 Bidding server 2 sucess!
+2022/11/27 12:29:40 Round over, total bidding amount: 2404
 
 // Server number 1
-2022/11/25 23:34:05 Starting bidding round 1, starting amount 0
-2022/11/25 23:34:05 Server listening at 127.0.0.1:5000
-2022/11/25 23:36:32 Client 0 bid amount 7
-2022/11/25 23:36:34 Client 0 bid amount 464
-2022/11/25 23:36:35 Client 0 bid amount 794
-2022/11/25 23:36:36 Client 1 bid amount 1156
-2022/11/25 23:36:36 Client 0 bid amount 1307
-2022/11/25 23:36:37 Client 0 bid amount 1509
-2022/11/25 23:36:38 Client 1 bid amount 1808
-2022/11/25 23:36:39 Client 1 bid amount 1939
-2022/11/25 23:36:39 Client 0 bid amount 2193
-2022/11/25 23:36:39 Client 2 bid amount 2250
-2022/11/25 23:36:39 Bidding round 1 over: winner 2, amount 2250, total bids 10
-2022/11/25 23:36:44 Starting bidding round 1, starting amount 0
-2022/11/25 23:36:45 Client 1 bid amount 154
-2022/11/25 23:36:45 Client 0 bid amount 479
-2022/11/25 23:36:45 Client 2 bid amount 522
-2022/11/25 23:36:46 Client 1 bid amount 625
-2022/11/25 23:36:47 Client 0 bid amount 910
-2022/11/25 23:36:47 Client 2 bid amount 1124
-2022/11/25 23:36:48 Client 1 bid amount 1606
-2022/11/25 23:36:48 Client 2 bid amount 1840
-2022/11/25 23:36:49 Client 1 bid amount 1982
-2022/11/25 23:36:49 Client 0 bid amount 2370
-2022/11/25 23:36:49 Bidding round 2 over: winner 0, amount 2370, total bids 10
-2022/11/25 23:36:54 Starting bidding round 2, starting amount 0
+2022/11/27 12:29:19 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:19 Server listening at 127.0.0.1:5000
+2022/11/27 12:29:27 Client 0 bid amount 140
+2022/11/27 12:29:28 Client 0 bid amount 317
+2022/11/27 12:29:28 Client 1 bid amount 640
+2022/11/27 12:29:29 Client 1 bid amount 1098
+2022/11/27 12:29:29 Client 2 bid amount 1488
+2022/11/27 12:29:30 Client 0 bid amount 1504
+2022/11/27 12:29:30 Client 2 bid amount 1551
+2022/11/27 12:29:31 Client 0 bid amount 2026
+2022/11/27 12:29:31 Client 1 bid amount 2037
+2022/11/27 12:29:31 Client 2 bid amount 2480
+2022/11/27 12:29:31 Bidding round 1 over: winner 2, amount 2480, total bids 10
+2022/11/27 12:29:36 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:36 Client 2 bid amount 107
+2022/11/27 12:29:37 Client 0 bid amount 529
+<crash...>
 
 // Server number 2
-2022/11/25 23:34:04 Starting bidding round 1, starting amount 0
-2022/11/25 23:34:04 Server listening at 127.0.0.1:5001
-2022/11/25 23:36:32 Client 0 bid amount 7
-2022/11/25 23:36:34 Client 0 bid amount 464
-2022/11/25 23:36:35 Client 0 bid amount 794
-2022/11/25 23:36:36 Client 1 bid amount 1156
-2022/11/25 23:36:36 Client 0 bid amount 1307
-2022/11/25 23:36:37 Client 0 bid amount 1509
-2022/11/25 23:36:38 Client 1 bid amount 1808
-2022/11/25 23:36:39 Client 1 bid amount 1939
-2022/11/25 23:36:39 Client 0 bid amount 2193
-2022/11/25 23:36:39 Client 2 bid amount 2250
-2022/11/25 23:36:39 Bidding round 1 over: winner 2, amount 2250, total bids 10
-2022/11/25 23:36:44 Starting bidding round 1, starting amount 0
-2022/11/25 23:36:45 Client 1 bid amount 154
-2022/11/25 23:36:45 Client 0 bid amount 479
-2022/11/25 23:36:45 Client 2 bid amount 522
-2022/11/25 23:36:46 Client 1 bid amount 625
-2022/11/25 23:36:47 Client 0 bid amount 910
-2022/11/25 23:36:47 Client 2 bid amount 1124
-2022/11/25 23:36:48 Client 1 bid amount 1606
-2022/11/25 23:36:48 Client 2 bid amount 1840
-2022/11/25 23:36:49 Client 1 bid amount 1982
-2022/11/25 23:36:49 Client 0 bid amount 2370
-2022/11/25 23:36:49 Bidding round 2 over: winner 0, amount 2370, total bids 10
-2022/11/25 23:36:54 Starting bidding round 2, starting amount 0
+2022/11/27 12:29:21 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:21 Server listening at 127.0.0.1:5001
+2022/11/27 12:29:27 Client 0 bid amount 140
+2022/11/27 12:29:28 Client 0 bid amount 317
+2022/11/27 12:29:28 Client 1 bid amount 640
+2022/11/27 12:29:29 Client 1 bid amount 1098
+2022/11/27 12:29:29 Client 2 bid amount 1488
+2022/11/27 12:29:30 Client 0 bid amount 1504
+2022/11/27 12:29:30 Client 2 bid amount 1551
+2022/11/27 12:29:31 Client 0 bid amount 2026
+2022/11/27 12:29:31 Client 1 bid amount 2037
+2022/11/27 12:29:31 Client 2 bid amount 2480
+2022/11/27 12:29:31 Bidding round 1 over: winner 2, amount 2480, total bids 10
+2022/11/27 12:29:36 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:36 Client 2 bid amount 107
+2022/11/27 12:29:37 Client 0 bid amount 529
+2022/11/27 12:29:37 Client 1 bid amount 794
+2022/11/27 12:29:37 Client 2 bid amount 988
+2022/11/27 12:29:38 Client 0 bid amount 1142
+2022/11/27 12:29:38 Client 1 bid amount 1610
+2022/11/27 12:29:38 Client 2 bid amount 1735
+2022/11/27 12:29:39 Client 0 bid amount 2127
+2022/11/27 12:29:39 Client 2 bid amount 2400
+2022/11/27 12:29:40 Client 1 bid amount 2404
+2022/11/27 12:29:40 Bidding round 2 over: winner 1, amount 2404, total bids 10
+2022/11/27 12:29:45 Starting bidding round 2, starting amount 0
 
-// Server numnber 3
-2022/11/25 23:34:02 Starting bidding round 1, starting amount 0
-2022/11/25 23:34:02 Server listening at 127.0.0.1:5002
-2022/11/25 23:36:32 Client 0 bid amount 7
-2022/11/25 23:36:34 Client 0 bid amount 464
-2022/11/25 23:36:35 Client 0 bid amount 794
-2022/11/25 23:36:36 Client 1 bid amount 1156
-2022/11/25 23:36:36 Client 0 bid amount 1307
-2022/11/25 23:36:37 Client 0 bid amount 1509
-2022/11/25 23:36:38 Client 1 bid amount 1808
-2022/11/25 23:36:39 Client 1 bid amount 1939
-2022/11/25 23:36:39 Client 0 bid amount 2193
-2022/11/25 23:36:39 Client 2 bid amount 2250
-2022/11/25 23:36:39 Bidding round 1 over: winner 2, amount 2250, total bids 10
-2022/11/25 23:36:44 Starting bidding round 1, starting amount 0
-2022/11/25 23:36:45 Client 1 bid amount 154
-2022/11/25 23:36:45 Client 0 bid amount 479
-2022/11/25 23:36:45 Client 2 bid amount 522
-2022/11/25 23:36:46 Client 1 bid amount 625
-2022/11/25 23:36:47 Client 0 bid amount 910
-2022/11/25 23:36:47 Client 2 bid amount 1124
-2022/11/25 23:36:48 Client 1 bid amount 1606
-2022/11/25 23:36:48 Client 2 bid amount 1840
-2022/11/25 23:36:49 Client 1 bid amount 1982
-2022/11/25 23:36:49 Client 0 bid amount 2370
-2022/11/25 23:36:49 Bidding round 2 over: winner 0, amount 2370, total bids 10
-2022/11/25 23:36:54 Starting bidding round 2, starting amount 0
+// Server number 3
+2022/11/27 12:29:22 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:22 Server listening at 127.0.0.1:5002
+2022/11/27 12:29:27 Client 0 bid amount 140
+2022/11/27 12:29:28 Client 0 bid amount 317
+2022/11/27 12:29:28 Client 1 bid amount 640
+2022/11/27 12:29:29 Client 1 bid amount 1098
+2022/11/27 12:29:29 Client 2 bid amount 1488
+2022/11/27 12:29:30 Client 0 bid amount 1504
+2022/11/27 12:29:30 Client 2 bid amount 1551
+2022/11/27 12:29:31 Client 0 bid amount 2026
+2022/11/27 12:29:31 Client 1 bid amount 2037
+2022/11/27 12:29:31 Client 2 bid amount 2480
+2022/11/27 12:29:31 Bidding round 1 over: winner 2, amount 2480, total bids 10
+2022/11/27 12:29:36 Starting bidding round 1, starting amount 0
+2022/11/27 12:29:36 Client 2 bid amount 107
+2022/11/27 12:29:37 Client 0 bid amount 529
+2022/11/27 12:29:37 Client 1 bid amount 794
+2022/11/27 12:29:37 Client 2 bid amount 988
+2022/11/27 12:29:38 Client 0 bid amount 1142
+2022/11/27 12:29:38 Client 1 bid amount 1610
+2022/11/27 12:29:38 Client 2 bid amount 1735
+2022/11/27 12:29:39 Client 0 bid amount 2127
+2022/11/27 12:29:39 Client 2 bid amount 2400
+2022/11/27 12:29:40 Client 1 bid amount 2404
+2022/11/27 12:29:40 Bidding round 2 over: winner 1, amount 2404, total bids 10
+2022/11/27 12:29:45 Starting bidding round 2, starting amount 0
