@@ -1,6 +1,3 @@
-// ---------------------------- //
-// ---------- IMPORT ---------- //
-// ---------------------------- //
 package main
 
 import (
@@ -17,9 +14,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-// --------------------------- //
-// --------- GLOBALS --------- //
-// --------------------------- //
 var (
 	sid      int32
 	bidCount int
@@ -32,9 +26,6 @@ type server struct {
 	GoAuctionSystem.UnimplementedAuctionSystemServer
 }
 
-// --------------------------- //
-// ---------- SERVER --------- //
-// --------------------------- //
 func BidBreak(id int32) {
 	if bidCount++; bidCount == 10 {
 		log.Printf("Bidding round %d over: winner %v, amount %d, total bids %d", bidRnd+1, id, bidVal, bidCount)
@@ -62,7 +53,7 @@ func (s *server) Bid(context context.Context, bid *GoAuctionSystem.BidPost) (*Go
 	}
 }
 
-func (s *server) Result(context context.Context, empty *GoAuctionSystem.Empty) (*GoAuctionSystem.Outcome, error) {
+func (s *server) Result(context.Context, *GoAuctionSystem.Empty) (*GoAuctionSystem.Outcome, error) {
 	return &GoAuctionSystem.Outcome{Amount: int32(bidVal), Over: bidOver}, nil
 }
 

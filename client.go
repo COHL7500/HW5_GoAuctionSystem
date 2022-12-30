@@ -3,8 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"math/rand"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/Hw5_GoAuctionSystem/proto"
@@ -12,20 +15,19 @@ import (
 )
 
 var (
-	cid         int32
-	lamport     int64
-	serverCount int
-	currentBid  int
-	roundOver   bool
-	chanDone    []chan bool
-	servers     []GoAuctionSystem.AuctionSystemClient
+	cid        int32
+	lamport    int64
+	currentBid int
+	roundOver  bool
+	chanDone   []chan bool
+	servers    map[int]GoAuctionSystem.AuctionSystemClient
 )
 
 // isServerAlive | checks whether a server responds or not.
 func isServerAlive(err error, serverId int) bool {
 	if err != nil {
 		log.Printf("Server %v unresponsive, connection disconnected...", serverId)
-		servers[serverId] = nil
+		delete(servers, serverId)
 		chanDone[serverId] <- true
 		return false
 	}
@@ -68,12 +70,15 @@ func GetResult() *GoAuctionSystem.Outcome {
 	lamport++
 	timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
 
-	for i := 0; i < serverCount; i++ {
-		if servers[i] != nil {
+	for i := 0; i < len(servers); i++ {
+		//if servers[i] != nil {
+		if _, serverExists := servers[i]; serverExists {
 			result, err := servers[i].Result(timeout, &GoAuctionSystem.Empty{})
+
 			if !isServerAlive(err, i) {
 				continue
 			}
+
 			return result
 		}
 	}
@@ -82,9 +87,9 @@ func GetResult() *GoAuctionSystem.Outcome {
 }
 
 // FrontEnd || Middleman interconnect client to servers.
-func FrontEnd(servers int) {
+func FrontEnd(reqServerAmount int) {
 	for {
-		if serverCount == servers {
+		if len(servers) == reqServerAmount {
 			result := GetResult()
 
 			if result.Over {
@@ -107,7 +112,7 @@ func FrontEnd(servers int) {
 
 func DialServer(serverId int) {
 	// Dial server
-	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", serverId+5000), grpc.WithInsecure())
+	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", serverId+5000), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
@@ -116,9 +121,29 @@ func DialServer(serverId int) {
 	servers[serverId] = GoAuctionSystem.NewAuctionSystemClient(conn)
 	chanDone[serverId] = make(chan bool)
 	log.Printf("Client connected to server...")
-	serverCount++
 
 	// Closes connection
 	<-chanDone[serverId]
 	conn.Close()
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	args := os.Args[1:] // args: <client ID> <server Count>
+	aid, _ := strconv.ParseInt(args[0], 10, 32)
+	sc, _ := strconv.ParseInt(args[1], 10, 32)
+	br, _ := strconv.ParseInt(args[2], 10, 32)
+	cid = int32(aid)
+
+	servers = make(map[int]GoAuctionSystem.AuctionSystemClient)
+	chanDone = make([]chan bool, int(sc))
+
+	for i := 0; i < int(sc); i++ {
+		go DialServer(i)
+	}
+
+	for i := 0; i < int(br); i++ {
+		log.Printf("Starting bidding round %d/%d", i+1, int(br))
+		FrontEnd(int(sc))
+	}
 }
