@@ -1,98 +1,108 @@
-// ---------------------------- //
-// ---------- IMPORT ---------- //
-// ---------------------------- //
 package main
 
 import (
-    "context"
-    "fmt"
-    "log"
-    "net"
-    "os"
-    "strconv"
-    "time"
-    "math/rand"
+	"context"
+	"fmt"
+	"log"
+	"math/rand"
+	"net"
+	"os"
+	"strconv"
+	"time"
 
-    "github.com/Hw5_GoAuctionSystem/proto"
-    "google.golang.org/grpc"
+	"github.com/Hw5_GoAuctionSystem/proto"
+	"google.golang.org/grpc"
 )
 
-// --------------------------- //
-// --------- GLOBALS --------- //
-// --------------------------- //
+// Representation of a server.
+
 var (
-	id       int32
-    bidCount int
-	bidRnd   int
-	bidVal   int
-    bidOver  bool
+	serverId int32 // Server's ID.
+	bidCount int   // Count of the total amount of bids.
+	bidRnd   int   // bidding round.
+	bidVal   int   // Value of current bid.
+	bidOver  bool  // If a bid is over or not.
 )
+
+// stopRound | stops the round.
+func stopRound(id int32) {
+	log.Printf("Bidding round %d over: winner %v, amount %d, total bids %d", bidRnd+1, id, bidVal, bidCount)
+
+	bidOver = true
+
+	time.Sleep(time.Second * 5)
+
+	initiateRound()
+}
+
+func initiateRound() {
+	bidCount = 0
+	bidVal = 0
+	bidRnd++
+	bidOver = false
+	log.Printf("Starting bidding round %d, starting amount %d", bidRnd, bidVal)
+}
+
+// Bid | handles bidding.
+func (s *server) Bid(_ context.Context, bid *GoAuctionSystem.BidPost) (*GoAuctionSystem.Ack, error) {
+	log.Printf("Client %v bid amount %d", bid.Id, bid.Amount)
+
+	if int(bid.Amount) > bidVal {
+		bidVal = int(bid.Amount)
+
+		if bidCount++; bidCount == 10 {
+			go stopRound(bid.Id)
+		}
+
+		return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_SUCCESS}, nil
+
+	} else if int(bid.Amount) < bidVal {
+
+		return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_FAIL}, nil
+
+	} else {
+
+		return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_EXCEPTION}, nil
+
+	}
+}
 
 type server struct {
 	GoAuctionSystem.UnimplementedAuctionSystemServer
 }
 
-// --------------------------- //
-// ---------- SERVER --------- //
-// --------------------------- //
-func BidBreak(id int32) {
-    if bidCount++; bidCount == 10 {
-        log.Printf("Bidding round %d over: winner %v, amount %d, total bids %d",bidRnd+1,id,bidVal,bidCount)
-        bidOver = true
-        time.Sleep(time.Second*5)
-        bidCount = 0
-        bidVal = 0
-        bidRnd++
-        bidOver = false
-        log.Printf("Starting bidding round %d, starting amount %d",bidRnd,bidVal)
-    }
-}
-
-func (s *server) Bid(context context.Context, bid *GoAuctionSystem.BidPost) (*GoAuctionSystem.Ack, error) {
-	log.Printf("Client %v bid amount %d", bid.Id, bid.Amount)
-
-    if int(bid.Amount) > bidVal {
-        bidVal = int(bid.Amount)
-        go BidBreak(bid.Id)
-        return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_SUCCESS}, nil
-    } else if int(bid.Amount) < bidVal {
-        return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_FAIL}, nil
-    } else {
-        return &GoAuctionSystem.Ack{Ack: GoAuctionSystem.Acks_ACK_EXCEPTION}, nil
-    }
-}
-
-func (s *server) Result(context context.Context, empty *GoAuctionSystem.Empty) (*GoAuctionSystem.Outcome, error) {
+// Result | returns the server's highest bid received and informs whether round is over or not.
+func (s *server) Result(context.Context, *GoAuctionSystem.Empty) (*GoAuctionSystem.Outcome, error) {
+	// ??
 	return &GoAuctionSystem.Outcome{Amount: int32(bidVal), Over: bidOver}, nil
 }
 
+// StartServer | Sets up and starts the server.
 func StartServer() {
 	// Create listener
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", id+5000))
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", serverId+5000))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	// Register grpc server
+	// Register a new gRPC server as an auction system server.
 	s := grpc.NewServer()
 	GoAuctionSystem.RegisterAuctionSystemServer(s, &server{})
 	log.Printf("Server listening at %v", lis.Addr())
 
-	// Serve at addresse
+	// Serve at address
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}
 }
 
-// --------------------------- //
-// ---------- SETUP ---------- //
-// --------------------------- //
 func main() {
-    rand.Seed(time.Now().UnixNano())
+	// "Shakes the bag" to ensure randomization.
+	rand.Seed(time.Now().UnixNano())
 	args := os.Args[1:] // args: <port number>
-	pid, _ := strconv.ParseInt(args[0], 10, 32)
-	id = int32(pid)
+	portId, _ := strconv.ParseInt(args[0], 10, 32)
+	serverId = int32(portId)
 
-    log.Printf("Starting bidding round %d, starting amount %d",1,bidVal)
+	log.Printf("Starting bidding round %d, starting amount %d", 1, bidVal)
 	StartServer()
 }
