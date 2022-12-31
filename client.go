@@ -14,13 +14,14 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Representation of a client.
+
 var (
-	cid        int32
-	lamport    int64
-	currentBid int
-	roundOver  bool
-	chanDone   []chan bool
-	servers    map[int]GoAuctionSystem.AuctionSystemClient
+	clientId     int32 // Client's ID.
+	lamport      int64 // Lamport to ensure sequentialism - Happens-before causality.
+	roundOver    bool
+	isServerDone []chan bool
+	servers      map[int]GoAuctionSystem.AuctionSystemClient
 )
 
 // isServerAlive | checks whether a server responds or not.
@@ -28,7 +29,7 @@ func isServerAlive(err error, serverId int) bool {
 	if err != nil {
 		log.Printf("Server %v unresponsive, connection disconnected...", serverId)
 		delete(servers, serverId)
-		chanDone[serverId] <- true
+		isServerDone[serverId] <- true
 		return false
 	}
 	return true
@@ -41,7 +42,7 @@ func BroadcastBid(amount int32) {
 	// timeout checks whether server responds within timeout. Otherwise, assume it's dead.
 	timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
 
-	currBid := GoAuctionSystem.BidPost{Id: cid, Amount: amount, Lamport: lamport}
+	currBid := GoAuctionSystem.BidPost{Id: clientId, Amount: amount, Lamport: lamport}
 
 	log.Printf("Bidding amount: %d", amount)
 
@@ -64,17 +65,23 @@ func BroadcastBid(amount int32) {
 	}
 }
 
-// gets the final result of the bidding.
+// GetResult | returns the final result of the bidding by calling all the servers' Result function.
 func GetResult() *GoAuctionSystem.Outcome {
 
 	lamport++
 	timeout, _ := context.WithTimeout(context.Background(), time.Second*5)
 
+	//
 	for i := 0; i < len(servers); i++ {
-		//if servers[i] != nil {
+
+		// if servers[i] returns a server, serverExists is true. Otherwise, return nil.
 		if _, serverExists := servers[i]; serverExists {
+
+			// Initiates result variable with the final bid of the bidding.
 			result, err := servers[i].Result(timeout, &GoAuctionSystem.Empty{})
 
+			// Skips the current server if it has become unresponsive after the request.
+			// NOTE: isServerAlive and serverExists is different:
 			if !isServerAlive(err, i) {
 				continue
 			}
@@ -87,15 +94,20 @@ func GetResult() *GoAuctionSystem.Outcome {
 }
 
 // FrontEnd || Middleman interconnect client to servers.
+// We simulate a client interacting with the bidding.
 func FrontEnd(reqServerAmount int) {
+	// While bidding isn't over...
 	for {
+
+		// Checks if the amount of servers corresponds to the requested amount of servers.
 		if len(servers) == reqServerAmount {
 			result := GetResult()
 
+			// If bid is over, check results.
+			//
 			if result.Over {
 				if !roundOver {
 					roundOver = true
-					currentBid = 0
 					log.Printf("Round over, total bidding amount: %v", result.Amount)
 					return
 				}
@@ -110,6 +122,7 @@ func FrontEnd(reqServerAmount int) {
 	}
 }
 
+// DialServer | initialize and connect to a server.
 func DialServer(serverId int) {
 	// Dial server
 	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", serverId+5000), grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -119,31 +132,44 @@ func DialServer(serverId int) {
 
 	// Setup client
 	servers[serverId] = GoAuctionSystem.NewAuctionSystemClient(conn)
-	chanDone[serverId] = make(chan bool)
-	log.Printf("Client connected to server...")
+	isServerDone[serverId] = make(chan bool)
+	log.Printf("Client connected to server %v", serverId)
 
-	// Closes connection
-	<-chanDone[serverId]
-	conn.Close()
+	// If a value is not received from isServerDone, close connection. Otherwise, close connection.
+	<-isServerDone[serverId]
+	errClose := conn.Close()
+	if errClose != nil {
+		log.Fatalf("Error occured upon closing connection: %v", errClose)
+	}
 }
 
 func main() {
+
+	// Randomizes the seed of our randomizer. This is equivalent to shake a bag to randomize the outcome.
 	rand.Seed(time.Now().UnixNano())
-	args := os.Args[1:] // args: <client ID> <server Count>
-	aid, _ := strconv.ParseInt(args[0], 10, 32)
-	sc, _ := strconv.ParseInt(args[1], 10, 32)
-	br, _ := strconv.ParseInt(args[2], 10, 32)
-	cid = int32(aid)
 
+	// arguments given from the clinet in console for setting up client.
+	args := os.Args[1:] // args: <client ID> <server Count> < bidding Rounds >
+	id, _ := strconv.ParseInt(args[0], 10, 32)
+	serverAmount, _ := strconv.ParseInt(args[1], 10, 32)
+	bidRound, _ := strconv.ParseInt(args[2], 10, 32)
+	clientId = int32(id)
+
+	// Initiate a hashmap consisting of all servers.
 	servers = make(map[int]GoAuctionSystem.AuctionSystemClient)
-	chanDone = make([]chan bool, int(sc))
 
-	for i := 0; i < int(sc); i++ {
+	// Initiate an array of the channels for every server.
+	// We use them to communicate whether a channel is active or not.
+	isServerDone = make([]chan bool, int(serverAmount))
+
+	// Dial up each server.
+	for i := 0; i < int(serverAmount); i++ {
 		go DialServer(i)
 	}
 
-	for i := 0; i < int(br); i++ {
-		log.Printf("Starting bidding round %d/%d", i+1, int(br))
-		FrontEnd(int(sc))
+	// Run N amount of bidding rounds.
+	for i := 0; i < int(bidRound); i++ {
+		log.Printf("Starting bidding round %d/%d", i+1, int(bidRound))
+		FrontEnd(int(serverAmount))
 	}
 }

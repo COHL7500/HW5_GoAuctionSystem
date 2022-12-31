@@ -14,6 +14,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Representation of a server.
+
 var (
 	sid      int32
 	bidCount int
@@ -54,6 +56,7 @@ func (s *server) Bid(context context.Context, bid *GoAuctionSystem.BidPost) (*Go
 }
 
 func (s *server) Result(context.Context, *GoAuctionSystem.Empty) (*GoAuctionSystem.Outcome, error) {
+	// ??
 	return &GoAuctionSystem.Outcome{Amount: int32(bidVal), Over: bidOver}, nil
 }
 
